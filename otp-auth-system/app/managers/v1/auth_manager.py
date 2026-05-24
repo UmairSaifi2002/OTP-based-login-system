@@ -9,12 +9,12 @@ from datetime import datetime, timedelta, timezone
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.db_models import User
-from app.models.schemas import TokenResponse, UserResponse
-from app.services.otp_services import generate_otp, generate_secure_otp, send_otp_email, send_otp_sms
-from app.utils.security import create_access_token
+from app.models.v1.db_models import User
+from app.models.v1.schemas import TokenResponse, UserResponse
+from app.services.v1.otp_services import generate_otp, generate_secure_otp, send_otp_email, send_otp_sms
+from app.utils.v1.security import create_access_token
 from app.config.v1.settings import settings
-from app.utils.loggers import logger
+from app.utils.v1.loggers import logger
 
 
 class AuthManager:

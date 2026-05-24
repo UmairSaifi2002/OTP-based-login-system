@@ -11,7 +11,7 @@ from typing import Optional
 from sqlalchemy import String, Integer, Boolean, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.db import Base
+from app.db.v1 import Base
 
 
 # Helper function for UTC timestamps (replaces deprecated datetime.utcnow)

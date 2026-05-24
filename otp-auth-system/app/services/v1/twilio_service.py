@@ -11,7 +11,7 @@ from fastapi import HTTPException, status
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 from app.config.v1.settings import settings
-from app.utils.loggers import logger
+from app.utils.v1.loggers import logger
 
 # Singleton client - created once, reused for all calls
 _client: Client | None = None

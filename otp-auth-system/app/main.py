@@ -17,10 +17,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.v1.settings import settings
-from app.utils.loggers import logger
+from app.utils.v1.loggers import logger
 # from app.db import create_tables, sync_engine, async_engine
-from app.db.sync import sync_engine, create_tables
-from app.db.async_db import async_engine
+from app.db.v1.sync import sync_engine, create_tables
+from app.db.v1.async_db import async_engine
+from app.db.v1 import test_redis_connection
 
 
 # ============================================
@@ -56,6 +57,19 @@ async def lifespan(app: FastAPI):
     create_tables()
     logger.info("✅ Database tables ready")
     logger.info(f"📡 API docs: http://127.0.0.1:8000/docs")
+
+    # ── NEW: Redis Health Check ───────────────────────────
+    print("🔍 Checking Redis connection...")
+    redis_ok = await test_redis_connection()
+    if redis_ok:
+        print("✅ Redis is connected and responding!")
+    else:
+        print("⚠️  WARNING: Redis is not available!")
+        print("   OTP verification and rate limiting will not work.")
+        print("   Make sure Redis server is running on", 
+              f"{settings.REDIS_HOST}:{settings.REDIS_PORT}")
+    
+    # ──────────────────────────────────────────────────────
     
     yield  # ← Server runs here
     
@@ -121,7 +135,7 @@ def create_app() -> FastAPI:
     # ============================================
     # REGISTER ROUTERS
     # ============================================
-    from app.routers import auth
+    from app.routers.v1 import auth
     app.include_router(auth.router)
     
     return app

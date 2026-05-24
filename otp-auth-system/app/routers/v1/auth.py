@@ -36,18 +36,18 @@ Endpoints:
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import get_async_session_with_commit
-from app.managers.auth_manager import AuthManager
-from app.models.schemas import (
+from app.db.v1 import get_async_session_with_commit
+from app.managers.v1.auth_manager import AuthManager
+from app.models.v1.schemas import (
     SendOTPRequest,
     VerifyOTPRequest,
     TokenResponse,
     MessageResponse,
 )
-from app.utils.loggers import logger
+from app.utils.v1.loggers import logger
 
 from sqlalchemy import select
-from app.models.db_models import User
+from app.models.v1.db_models import User
 
 
 

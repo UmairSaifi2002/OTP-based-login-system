@@ -16,8 +16,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.config.v1.settings import settings
-from app.db import Base
-from app.utils.loggers import logger
+from app.db.v1 import Base
+from app.utils.v1.loggers import logger
 
 
 # ============================================
@@ -106,7 +106,7 @@ def create_tables():
     """
     # Import models so they register with Base.metadata
     # If imported at the top, might cause circular imports
-    from app.models import db_models
+    from app.models.v1 import db_models
 
     logger.info("📊 Creating database tables...")
     Base.metadata.create_all(bind = sync_engine)

@@ -15,7 +15,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.config.v1.settings import settings
-from app.utils.loggers import logger
+from app.utils.v1.loggers import logger
 # import httpx
 import secrets # this is for generating a secure random otp
 

@@ -19,8 +19,8 @@ Usage in endpoints:
 
 from fastapi import Request, HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
-from app.utils.security import get_user_id_from_token
-from app.utils.loggers import logger
+from app.utils.v1.security import get_user_id_from_token
+from app.utils.v1.loggers import logger
 
 
 class AuthMiddleware(BaseHTTPMiddleware):

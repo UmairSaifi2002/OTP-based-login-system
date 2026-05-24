@@ -26,7 +26,7 @@ from sqlalchemy.ext.asyncio import (
 
 
 from app.config.v1.settings import settings
-from app.utils.loggers import logger 
+from app.utils.v1.loggers import logger 
 
 
 # ============================================
