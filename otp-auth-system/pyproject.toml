@@ -1,0 +1,34 @@
+[project]
+name = "otp-auth-system"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "UmairSaifi2002",email = "umairsaifi2002@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[all] (>=0.136.1,<0.137.0)",
+    "uvicorn (>=0.47.0,<0.48.0)",
+    "pydantic (>=2.13.4,<3.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "pydantic-settings (>=2.14.1,<3.0.0)",
+    "sqlalchemy (>=2.0.49,<3.0.0)",
+    "pymysql (>=1.1.3,<2.0.0)",
+    "aiomysql (>=0.3.2,<0.4.0)",
+    "python-jose[cryptography] (>=3.5.0,<4.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "twilio (>=9.10.9,<10.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "otp_auth_system", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.15.13,<0.16.0)"
+]
