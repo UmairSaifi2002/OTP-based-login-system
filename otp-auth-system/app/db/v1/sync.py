@@ -54,7 +54,7 @@ sync_engine = create_engine(
     echo = settings.DATABASE_ECHO,            # Show SQL in Consol
     pool_size = settings.DATABASE_POOL_SIZE,  # Max Connections in Pool
     pool_recycle = 3600,                      # Recycle after 1 hour
-    pool_pre_ping = True                      # Test before use
+    pool_pre_ping = False,                    # Test before use
 )
 
 

@@ -48,6 +48,8 @@ from app.utils.v1.loggers import logger
 
 from sqlalchemy import select
 from app.models.v1.db_models import User
+from app.db.v1.redis_db import get_redis
+import redis.asyncio as aioredis
 
 
 
@@ -64,6 +66,7 @@ router = APIRouter(
 async def signup(
     request: SendOTPRequest,
     session: AsyncSession = Depends(get_async_session_with_commit),
+    redis: aioredis.Redis = Depends(get_redis) # add Redis dependency here
 ):
     """
     Signup - Create a new account and send OTP for verification.
@@ -94,7 +97,9 @@ async def signup(
         # If user doesn't exist, proceed to send OTP (which also creates the user)
         result = await AuthManager.send_otp(
             session=session,
+            redis=redis, # pass Redis to the manager
             email=request.email,
+            country_code=request.country_code,
             phone_number=request.phone_number,
         )
 
@@ -123,7 +128,8 @@ async def signup(
 @router.post("/login", response_model = MessageResponse)
 async def login(
     request: SendOTPRequest,
-    session: AsyncSession = Depends(get_async_session_with_commit)
+    session: AsyncSession = Depends(get_async_session_with_commit),
+    redis: aioredis.Redis = Depends(get_redis) # add Redis dependency here
 ):
     """
     Login - Send OTP to an existing user.
@@ -157,7 +163,9 @@ async def login(
         # Now using the same send_otp logic to generate OTP and update user record
         result = await AuthManager.send_otp(
             session = session,
+            redis = redis, # pass Redis to the manager
             email = request.email,
+            country_code = request.country_code,
             phone_number = request.phone_number,
         )
 
@@ -234,6 +242,7 @@ async def login(
 async def verify_otp(
     request: VerifyOTPRequest,
     session: AsyncSession = Depends(get_async_session_with_commit),
+    redis: aioredis.Redis = Depends(get_redis) # add Redis dependency here
 ):
     """
     Verify OTP and receive JWT access token.
@@ -254,6 +263,7 @@ async def verify_otp(
     try:
         token_response = await AuthManager.verify_otp(
             session=session,
+            redis=redis, # pass Redis to the manager
             otp=request.otp,
             email=request.email,
             phone_number=request.phone_number,

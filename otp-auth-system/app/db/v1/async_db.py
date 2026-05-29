@@ -47,7 +47,7 @@ async_engine = create_async_engine(
     echo = settings.DATABASE_ECHO,
     pool_size = settings.DATABASE_POOL_SIZE,
     pool_recycle = 3600,
-    pool_pre_ping = True
+    pool_pre_ping = False
 )
 
 # ============================================

@@ -18,6 +18,7 @@ from app.config.v1.settings import settings
 from app.utils.v1.loggers import logger
 # import httpx
 import secrets # this is for generating a secure random otp
+from app.services.v1.twilio_service import send_otp_sms as send_twilio
 
 
 def generate_secure_otp(length: int = 6) -> str:
@@ -118,7 +119,6 @@ async def send_otp_sms(phone_number: str, otp: str) -> bool:
         return True
     
     try:
-        from app.services.twilio_service import send_otp_sms as send_twilio
         await send_twilio(phone_number, otp)
         return True
     except Exception as e:

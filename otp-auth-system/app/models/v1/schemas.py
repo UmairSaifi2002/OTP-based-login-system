@@ -14,7 +14,7 @@ Pydantic automatically:
 4. Returns clear error messages for invalid data
 """
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, model_validator
 from typing import Optional
 from datetime import datetime
 
@@ -36,12 +36,29 @@ class SendOTPRequest(BaseModel):
         None,
         description="User's email address for receiving OTP"
     )
+    country_code: Optional[str] = Field(
+        None,
+        min_length=1,
+        max_length=5,
+        description = "Country code for the phone number"
+    )
     phone_number: Optional[str] = Field(
         None,
         min_length=10,
         max_length=15,
         description="User's phone number for receiving OTP"
     )
+
+    @model_validator(mode='after')
+    def check_contact_method(self):
+        """Ensure at least one of email or phone is provided."""
+        if not self.email and not self.phone_number:
+            raise ValueError('Either email or phone_number is required')
+        if self.phone_number and not self.country_code:
+            raise ValueError('Country code is required when phone_number is provided')
+        if self.country_code and not self.phone_number:
+            raise ValueError('Phone number is required when country_code is provided')
+        return self
 
 
 class VerifyOTPRequest(BaseModel):
@@ -56,6 +73,10 @@ class VerifyOTPRequest(BaseModel):
     email: Optional[EmailStr] = Field(
         None,
         description="Email used to receive OTP"
+    )
+    country_code: Optional[str] = Field(
+        None,
+        description = "Country code used during OTP request"
     )
     phone_number: Optional[str] = Field(
         None,
@@ -99,7 +120,8 @@ class UserResponse(BaseModel):
     """
     id: int
     email: str
-    phone_number: Optional[str] # = None
+    country_code: Optional[str] = None
+    phone_number: Optional[str] = None
     # name: Optional[str] = None
     is_active: bool
     created_at: datetime

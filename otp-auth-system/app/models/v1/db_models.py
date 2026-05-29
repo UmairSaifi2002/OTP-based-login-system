@@ -75,9 +75,23 @@ class User(Base):
     )
 
     # Phone number is optional (only used for OTP via SMS)
+    # phone_number: Mapped[Optional[str]] = mapped_column(
+    #     String(20),
+    #     unique = True,
+    #     nullable = True,
+    # )
+
+    # ------------------------------------------------------------------------
+    # New Fields -> Country Code and Phone Number
+    # ------------------------------------------------------------------------
+    country_code: Mapped[Optional[str]] = mapped_column(
+        String(5),
+        nullable = True,
+    )
+
     phone_number: Mapped[Optional[str]] = mapped_column(
         String(20),
-        unique = True,
+        # unique = False,
         nullable = True,
     )
 
@@ -91,16 +105,16 @@ class User(Base):
     # OTP AUTHENTICATION
     # ============================================
     # The current OTP code (6 digits)
-    otp_code: Mapped[Optional[str]] = mapped_column(
-        String(6),
-        nullable = True,
-    )
+    # otp_code: Mapped[Optional[str]] = mapped_column(
+    #     String(6),
+    #     nullable = True,
+    # )
 
     # When the OTP expires (after this time, OTP is invalid)
-    otp_expires_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime,
-        nullable = True,
-    )
+    # otp_expires_at: Mapped[Optional[datetime]] = mapped_column(
+    #     DateTime,
+    #     nullable = True,
+    # )
 
     # ============================================
     # ACCOUNT STATUS
